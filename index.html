@@ -8,8 +8,10 @@
 <meta name="theme-color" content="#000000">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Bandes – ta musique en bandes blanches">
-<meta property="og:description" content="Sept visualiseurs noir et blanc. Glisse des MP3 ou lis un dépôt GitHub.">
+<meta property="og:description" content="Dix visualiseurs noir et blanc. Glisse des MP3 ou lis un dépôt GitHub.">
 <meta name="twitter:card" content="summary_large_image">
+<!-- Pour l'aperçu des liens sur les réseaux : exporte « PNG 1200×630 » depuis Partager, mets-le dans ton dépôt et ajoute :
+<meta property="og:image" content="https://TON-SITE/og.png"> <meta name="twitter:image" content="https://TON-SITE/og.png"> -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Cg fill='%23fff'%3E%3Crect x='5' y='12' width='3' height='8'/%3E%3Crect x='10' y='6' width='3' height='20'/%3E%3Crect x='15' y='9' width='3' height='14'/%3E%3Crect x='20' y='3' width='3' height='26'/%3E%3Crect x='25' y='11' width='3' height='10'/%3E%3C/g%3E%3C/svg%3E">
 <style>
 :root{color-scheme:dark;--p:34px;--l:rgba(255,255,255,.24);--d:rgba(255,255,255,.58);--serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif}
@@ -81,6 +83,12 @@ sup{font-size:9px;margin-left:2px;opacity:.6}
 #land .go:hover{background:#fff;color:#000}
 #land .fine{font-size:13px;margin-top:26px}
 #err{margin-top:16px;min-height:1.5em}
+.box.wide{width:min(660px,100%)}
+#pv{display:block;width:100%;height:260px;border:1px solid var(--l);margin:4px 0 12px;background:#000}
+#sl{display:block;width:100%;border:1px solid var(--l);padding:.6em .8em;margin:4px 0 6px;color:var(--d)}
+.sec{color:var(--d);margin:20px 0 8px}
+#soc{margin-top:16px}
+a.pill{display:inline-block;color:#fff;text-decoration:none;margin:0 8px 8px 0}
 .modal{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.82);display:none;place-items:center;padding:20px;backdrop-filter:blur(6px)}
 .modal.open{display:grid}
 .box{background:#000;border:1px solid var(--l);width:min(560px,100%);padding:30px;max-height:92vh;overflow:auto}
@@ -149,9 +157,22 @@ body.embed.ui-min .mb,body.embed.ui-none #bot{display:none}
   <div id="bar" role="slider" aria-label="Position" tabindex="0"><div class="t"><i></i></div></div>
 </div>
 
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Intégrer Bandes"><div class="box">
-  <h2>Intégrer Bandes</h2>
-  <div class="opt"><label for="eh">Hauteur</label><select id="eh"><option value="320">Compacte, 320 px</option><option value="420" selected>Standard, 420 px</option><option value="560">Grande, 560 px</option></select></div>
+<div class="modal" id="share" role="dialog" aria-modal="true" aria-label="Partager"><div class="box">
+  <h2>Partager</h2>
+  <label class="lab" for="sl">Lien vers ce morceau</label>
+  <input id="sl" readonly>
+  <div class="opt"><label for="st">Démarrer à <span id="sts">0:00</span></label><input type="checkbox" id="st"></div>
+  <div id="soc"></div>
+  <p class="sec">Image à publier</p>
+  <button id="gPng">PNG 1200×630</button><button id="gSvg">SVG vectoriel</button><button id="gNat">Via l’appareil</button>
+  <p class="sec"></p>
+  <button id="cSl">Copier le lien</button><button class="x">Fermer</button>
+</div></div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Intégrer Bandes"><div class="box wide">
+  <h2>Intégrer</h2>
+  <iframe id="pv" title="Aperçu" allow="autoplay; fullscreen"></iframe>
+  <div class="opt"><label for="eh">Format</label><select id="eh"><option value="320">Hauteur fixe, 320 px</option><option value="420" selected>Hauteur fixe, 420 px</option><option value="560">Hauteur fixe, 560 px</option><option value="16:9">Adaptatif 16:9</option><option value="1:1">Adaptatif carré</option></select></div>
   <div class="opt"><label for="eu">Interface</label><select id="eu"><option value="min">Minimale</option><option value="full">Avec choix du visuel</option><option value="none">Visuel seul</option></select></div>
   <div class="opt"><label for="ec">Visuels</label><select id="ec"><option value="0">Celui affiché maintenant</option><option value="1">Alternance automatique</option></select></div>
   <div class="opt"><label for="et">Démarrer à la position actuelle</label><input type="checkbox" id="et"></div>
@@ -165,7 +186,7 @@ body.embed.ui-min .mb,body.embed.ui-none #bot{display:none}
   <div class="opt"><span>Reculer ou avancer de 5 s</span><kbd>← →</kbd></div>
   <div class="opt"><span>Morceau précédent ou suivant</span><kbd>P N</kbd></div>
   <div class="opt"><span>Volume, couper le son</span><kbd>↑ ↓ M</kbd></div>
-  <div class="opt"><span>Changer de visuel</span><kbd>1 à 7</kbd></div>
+  <div class="opt"><span>Changer de visuel</span><kbd>1 à 0</kbd></div>
   <div class="opt"><span>Alternance automatique des visuels</span><kbd>A</kbd></div>
   <div class="opt"><span>Plein écran, enregistrer une image</span><kbd>F C</kbd></div>
   <p style="color:var(--d);margin:18px 0 14px">L’interface se masque d’elle-même pendant la lecture. Bouge la souris ou touche l’écran pour la faire revenir.</p>
@@ -181,7 +202,7 @@ body.embed.ui-min .mb,body.embed.ui-none #bot{display:none}
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const ls={get(k,d){try{const v=localStorage.getItem("bandes."+k);return v===null?d:JSON.parse(v)}catch{return d}},set(k,v){try{localStorage.setItem("bandes."+k,JSON.stringify(v))}catch{}}};
 const q=new URLSearchParams(location.search),embed=q.has("embed");
-const MODES=[["bars","Bandes"],["ring","Anneau"],["strata","Strates"],["wave","Oscillo"],["flow","Défilé"],["code","Code"],["ripple","Ondes"]];
+const MODES=[["bars","Bandes"],["ring","Anneau"],["strata","Strates"],["wave","Oscillo"],["flow","Défilé"],["code","Code"],["ripple","Ondes"],["tunnel","Tunnel"],["vector","Vecteur"],["spiral","Spirale"]];
 const ok=m=>MODES.some(x=>x[0]===m);
 const S={repo:q.get("repo")||"",path:q.get("path")||"",branch:q.get("branch")||"",
   mode:ok(q.get("mode"))?q.get("mode"):(embed||!ok(ls.get("mode")))?"bars":ls.get("mode"),
@@ -329,8 +350,8 @@ function capture(){
 }
 
 const msp=$("#msp");
-MODES.forEach(([k,n],i)=>{const b=document.createElement("button");b.className="mb";b.dataset.m=k;b.title="Touche "+(i+1);
-  b.innerHTML=n+"<sup>"+(i+1)+"</sup>";b.onclick=()=>setMode(k);msp.before(b)});
+MODES.forEach(([k,n],i)=>{const b=document.createElement("button");b.className="mb";b.dataset.m=k;b.title="Touche "+(i+1)%10;
+  b.innerHTML=n+"<sup>"+(i+1)%10+"</sup>";b.onclick=()=>setMode(k);msp.before(b)});
 const ab=document.createElement("button");ab.id="bAuto";ab.className="mb";ab.textContent="Auto";
 ab.title="Change de visuel toutes les 16 secondes (A)";ab.onclick=()=>{S.cycle=!S.cycle;sync()};msp.before(ab);
 setInterval(()=>{if(S.cycle&&!au.paused){const i=MODES.findIndex(m=>m[0]===S.mode);setMode(MODES[(i+1)%MODES.length][0])}},16000);
@@ -352,20 +373,68 @@ $("#bHelp").onclick=()=>$("#help").classList.add("open");
 $("#clr").onclick=()=>{au.pause();au.removeAttribute("src");S.tracks=[];S.nrepo=0;S.repo="";S.started=false;
   $("#list").classList.remove("open");$("#bot").classList.add("hide");$("#start").classList.add("hide");$("#land").classList.remove("hide");
   history.replaceState(null,"",location.pathname);document.title="Bandes – ta musique en bandes blanches"};
-$("#bShare").onclick=async()=>{
-  if(noShare())return;
-  const u=url({t:0});
-  if(navigator.share){try{await navigator.share({title:S.tracks[S.i].name+" – Bandes",url:u});return}catch(e){if(e.name==="AbortError")return}}
-  toast(await copy(u)?"Lien copié":"Copie impossible")};
-const upd=()=>{
-  const o={embed:1,ui:$("#eu").value,cycle:$("#ec").value==="1",t:$("#et").checked};
-  $("#code").value=`<iframe src="${url(o)}" width="100%" height="${$("#eh").value}" style="border:0;background:#000" allow="autoplay; fullscreen" loading="lazy" title="Bandes"></iframe>`;
+const esc=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const cur=()=>S.tracks[S.i];
+function dl(b,n){const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=n;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000)}
+/* portrait vectoriel du spectre actuel : SVG exportable, et PNG 1200x630 pour les réseaux */
+function svgSnap(){
+  const w=1200,h=630,cx=600,cy=277,m=60,bw=(w-2*m)/N,b=B,f=n=>+n.toFixed(1);
+  const R=(x,y,a,c,o)=>`<rect x="${f(x)}" y="${f(y)}" width="${f(a)}" height="${f(c)}"${o?` opacity="${o}"`:""}/>`;
+  const L=(x1,y1,x2,y2,sw)=>`<path d="M${f(x1)} ${f(y1)}L${f(x2)} ${f(y2)}" stroke-width="${sw}"/>`;
+  let s="";
+  switch(S.mode){
+  case"ring":for(let i=0;i<N*2;i++){const k=i<N?i:2*N-1-i,a=i/(N*2)*6.2832,c=Math.cos(a),n=Math.sin(a),l=4+b[k]*150;s+=L(cx+c*110,cy+n*110,cx+c*(110+l),cy+n*(110+l),3)}break;
+  case"spiral":for(let i=0;i<216;i++){const a=i*.21,r=24+i*.8,l=3+b[i%N]*60,c=Math.cos(a),n=Math.sin(a);s+=L(cx+c*r,cy+n*r,cx+c*(r+l),cy+n*(r+l),2)}break;
+  case"tunnel":for(let j=0;j<12;j++){const p=(j+.5)/12,q=p*p*1.2;s+=`<rect x="${f(cx-w*q/2)}" y="${f(cy-h*q*.45)}" width="${f(w*q)}" height="${f(h*q*.9)}" fill="none" stroke-width="${f(1+b[j*5]*14*p)}" opacity="${f(Math.min(1,p*2.2))}"/>`}break;
+  case"ripple":for(let k=0;k<9;k++)s+=`<circle cx="${cx}" cy="${cy}" r="${40+k*30}" fill="none" stroke-width="${f(1+b[k*6]*8)}" opacity="${f(1-k/10)}"/>`;s+=`<circle cx="${cx}" cy="${cy}" r="${f(6+bass*30)}"/>`;break;
+  case"vector":{let d="";for(let k=0;k<360;k++){const a=k/360*6.2832;d+=(k?"L":"M")+f(cx+Math.sin(a*3+b[2]*3)*(.4+b[4]*.5)*230)+" "+f(cy+Math.sin(a*2+b[9])*(.4+b[8]*.5)*230)}s=`<path d="${d}Z" fill="none" stroke-width="2"/>`;break}
+  case"wave":{let u="",v="";for(let i=0;i<N;i++){const x=m+i*bw,y=b[i]*190;u+=(i?"L":"M")+f(x)+" "+f(cy-y);v+=(i?"L":"M")+f(x)+" "+f(cy+y)}s=`<path d="${u}" fill="none" stroke-width="2.2"/><path d="${v}" fill="none" stroke-width="1" opacity=".5"/>`;break}
+  case"flow":for(let i=0;i<N;i++)s+=R(m,70+i*6.2,4+b[N-1-i]*(w-2*m-4),4);break;
+  case"strata":for(let j=Math.min(hist.length,32)-1;j>=0;j--){let d="";for(let i=0;i<N;i++)d+=(i?"L":"M")+f(m+i/(N-1)*(w-2*m))+" "+f(500-j*12-hist[j][i]*130*Math.sin(Math.PI*i/(N-1)));s+=`<path d="${d}L${w-m} 700L${m} 700Z" fill="#000" stroke-width="1.3" stroke-opacity="${f(1-j/45)}"/>`}break;
+  case"code":for(let i=0;i<N;i++){const k=Math.min(bw*.96,Math.max(1,bw*(.08+b[i]*1.3)));s+=R(m+i*bw+(bw-k)/2,70,k,400)}break;
+  default:for(let i=0;i<N;i++){const k=Math.max(2,b[i]*190),x=m+i*bw+bw*.16;s+=R(x,cy-k,bw*.68,k)+R(x,cy+3,bw*.68,k*.72,.36)}
+  }
+  const t=cur();
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}"><rect width="${w}" height="${h}" fill="#000"/><g fill="#fff" stroke="#fff" stroke-width="0">${s}</g><text x="60" y="566" fill="#fff" font-family="Georgia,'Times New Roman',serif" font-style="italic" font-size="46">${esc(t.name.slice(0,44))}</text><text x="60" y="598" fill="#fff" fill-opacity=".6" font-family="Helvetica,Arial,sans-serif" font-size="16">${esc((t.artist?t.artist+"   ":"")+"Bandes")}</text><rect x="12" y="12" width="1176" height="606" fill="none" stroke="#fff" stroke-opacity=".12"/></svg>`;
+}
+const pngCard=()=>new Promise(res=>{const im=new Image();im.onload=()=>{const c=document.createElement("canvas");c.width=1200;c.height=630;c.getContext("2d").drawImage(im,0,0);c.toBlob(res)};
+  im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svgSnap())});
+
+/* partage */
+const shUrl=()=>url({t:$("#st").checked});
+function shUpd(){
+  const u=shUrl(),T=encodeURIComponent(cur().name+" – Bandes"),U=encodeURIComponent(u);
+  $("#sl").value=u;
+  $("#soc").innerHTML=[["X","https://twitter.com/intent/tweet?text="+T+"&url="+U],["WhatsApp","https://wa.me/?text="+T+"%20"+U],["Telegram","https://t.me/share/url?url="+U+"&text="+T],
+    ["Facebook","https://www.facebook.com/sharer/sharer.php?u="+U],["Reddit","https://www.reddit.com/submit?url="+U+"&title="+T],["Bluesky","https://bsky.app/intent/compose?text="+T+"%20"+U],["E-mail","mailto:?subject="+T+"&body="+U]]
+    .map(([n,h])=>`<a class="pill" target="_blank" rel="noopener" href="${h}">${n}</a>`).join("");
+}
+$("#bShare").onclick=()=>{if(noShare())return;$("#sts").textContent=fmt(au.currentTime||0);shUpd();$("#share").classList.add("open")};
+$("#st").onchange=shUpd;$("#sl").onfocus=e=>e.target.select();
+$("#cSl").onclick=async()=>toast(await copy($("#sl").value)?"Lien copié":"Copie impossible");
+$("#gSvg").onclick=()=>{dl(new Blob([svgSnap()],{type:"image/svg+xml"}),"bandes-"+S.mode+".svg");toast("SVG enregistré")};
+$("#gPng").onclick=async()=>{dl(await pngCard(),"bandes-"+S.mode+".png");toast("Image 1200×630 enregistrée")};
+$("#gNat").onclick=async()=>{
+  const d={title:cur().name+" – Bandes",url:shUrl()};
+  try{const f=new File([await pngCard()],"bandes.png",{type:"image/png"});if(navigator.canShare&&navigator.canShare({files:[f]}))d.files=[f];await navigator.share(d)}
+  catch(e){if(e.name!=="AbortError")toast("Partage impossible sur cet appareil")}};
+if(!navigator.share)$("#gNat").classList.add("hide");
+
+/* intégration */
+function embUpd(reload){
+  const o={embed:1,ui:$("#eu").value,cycle:$("#ec").value==="1",t:$("#et").checked},src=url(o),f=$("#eh").value,fix=/^\d+$/.test(f);
+  const a=`src="${src}" allow="autoplay; fullscreen; clipboard-write" allowfullscreen loading="lazy" title="Bandes – ${esc(cur().name)}"`;
+  $("#code").value=fix?`<iframe ${a} width="100%" height="${f}" style="border:0;background:#000"></iframe>`
+    :`<div style="position:relative;padding-bottom:${f==="16:9"?56.25:100}%;height:0;overflow:hidden;background:#000"><iframe ${a} style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe></div>`;
   $("#cLink").dataset.u=url({cycle:o.cycle,t:o.t});
-};
-$("#bEmbed").onclick=()=>{if(noShare())return;upd();$("#modal").classList.add("open")};
-$$("#modal select,#et").forEach(e=>e.onchange=upd);
+  const pv=$("#pv");pv.style.height=(fix?Math.min(+f,300):f==="16:9"?210:270)+"px";
+  if(reload!==false&&pv.dataset.s!==src){pv.dataset.s=src;pv.src=src}
+}
+$("#bEmbed").onclick=()=>{if(noShare())return;embUpd();$("#modal").classList.add("open")};
+$("#eh").onchange=()=>embUpd(false);$$("#eu,#ec,#et").forEach(e=>e.onchange=()=>embUpd());
 $("#cCode").onclick=async()=>toast(await copy($("#code").value)?"Code copié":"Copie impossible");
 $("#cLink").onclick=async e=>toast(await copy(e.target.dataset.u)?"Lien copié":"Copie impossible");
+new MutationObserver(()=>{if(!$("#modal").classList.contains("open")){$("#pv").src="about:blank";$("#pv").dataset.s=""}}).observe($("#modal"),{attributes:true,attributeFilter:["class"]});
 $$(".modal").forEach(m=>m.onclick=e=>{if(e.target===m||e.target.classList.contains("x"))m.classList.remove("open")});
 
 const seek=e=>{if(au.duration){const r=$("#bar .t").getBoundingClientRect();au.currentTime=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width))*au.duration}};
@@ -379,7 +448,7 @@ addEventListener("keydown",e=>{
   else if(k==="arrowup"){e.preventDefault();setVol(au.volume+.05)}
   else if(k==="arrowdown"){e.preventDefault();setVol(au.volume-.05)}
   else if(k==="n")play(nextI(1));else if(k==="p")play(S.i-1);
-  else if(n>=1&&n<=MODES.length)setMode(MODES[n-1][0]);
+  else if(/^\d$/.test(k)&&MODES[(n+9)%10])setMode(MODES[(n+9)%10][0]);
   else if(k==="a"){S.cycle=!S.cycle;sync()}
   else if(k==="m")mute();else if(k==="f")fs();else if(k==="c"&&!embed)capture();
   else if(k==="?"&&!embed)$("#help").classList.add("open");
@@ -492,8 +561,31 @@ ripple(t){
     g.globalAlpha=o.a;g.lineWidth=o.w*o.a+.6;g.beginPath();g.arc(cx,cy,o.r,0,7);g.stroke();
   }
   g.globalAlpha=1;g.fillStyle="#fff";g.beginPath();g.arc(cx,cy,m*.012+bass*m*.05,0,7);g.fill();
+},
+tunnel(){
+  const cx=W/2,cy=H*.44;tz=(tz+.0018+bass*.013)%1;g.strokeStyle="#fff";
+  g.globalAlpha=.14;g.lineWidth=1;g.beginPath();for(const[x,y]of[[0,0],[W,0],[0,H],[W,H]]){g.moveTo(cx,cy);g.lineTo(x,y)}g.stroke();
+  for(let j=0;j<16;j++){const p=(tz+j/16)%1,q=p*p*1.25,w=W*q,h=H*q*.9;g.globalAlpha=Math.min(1,p*2.4);g.lineWidth=.8+B[(j*4)%N]*16*p;g.strokeRect(cx-w/2,cy-h/2,w,h)}
+  g.globalAlpha=1;
+},
+vector(t){
+  const m=Math.min(W,H)*.34*(1+bass*.15),cx=W/2,cy=H*.44,on=live();
+  if(on)an.getByteTimeDomainData(td);
+  g.fillStyle="#fff";g.globalAlpha=.12;g.fillRect(cx-m*1.5,cy,m*3,1);g.fillRect(cx,cy-m*1.5,1,m*3);g.globalAlpha=1;
+  g.strokeStyle="#fff";g.lineWidth=1.3;g.lineJoin="round";g.beginPath();
+  for(let k=0;k<512;k++){
+    let x,y;if(on){x=(td[k]-128)/128;y=(td[k+40]-128)/128}else{const a=k/512*6.2832;x=Math.sin(a*3+t/1800)*.5;y=Math.sin(a*2)*.5}
+    const X=cx+x*m*1.5,Y=cy+y*m*1.5;k?g.lineTo(X,Y):g.moveTo(X,Y);
+  }
+  g.stroke();
+},
+spiral(t){
+  const m=Math.min(W,H),cx=W/2,cy=H*.44;g.strokeStyle="#fff";g.lineWidth=1.6;g.beginPath();
+  for(let i=0;i<216;i++){const a=i*.21+t/7000,r=m*.04+i*m*.0014*(1+bass*.4),l=2+B[i%N]*m*.1,c=Math.cos(a),n=Math.sin(a);g.moveTo(cx+c*r,cy+n*r);g.lineTo(cx+c*(r+l),cy+n*(r+l))}
+  g.stroke();
 }};
-const FADE={bars:.34,ring:.3,wave:.45,code:.5,ripple:.22};
+let tz=0;
+const FADE={bars:.34,ring:.3,wave:.45,code:.5,ripple:.22,tunnel:.35,vector:.22,spiral:.3};
 const lg=[...$$(".brand i")],E={time:$("#time"),bar:$("#bar")};let sec=-1,lastR=-1;
 const fmt=x=>Math.floor(x/60)+":"+String(Math.floor(x%60)).padStart(2,"0");
 function frame(t){
