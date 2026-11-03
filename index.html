@@ -68,19 +68,19 @@ sup{font-size:9px;margin-left:2px;opacity:.6}
 #lst button{display:block;width:100%;text-align:left;padding:.65em var(--p);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #lst button.cur{opacity:1;box-shadow:inset 2px 0 #fff}
 #land{position:fixed;inset:0;z-index:5;display:flex;flex-direction:column;justify-content:center;padding:80px max(24px,9vw) 40px;overflow:auto}
-#land h1{font:400 clamp(40px,8vw,108px)/.95 var(--serif);letter-spacing:-.035em;margin-bottom:22px}
+#land h1{font:400 clamp(36px,6.4vw,88px)/.95 var(--serif);letter-spacing:-.035em;margin-bottom:16px}
 #land p{color:var(--d);max-width:46ch}
-#zone{margin:32px 0 26px;max-width:620px;border:1px solid var(--l);padding:30px 28px;transition:.2s}
+#zone{margin:22px 0 20px;max-width:700px;border:1px solid var(--l);padding:22px 26px;transition:.2s}
 #zone.over{border-color:#fff;background:rgba(255,255,255,.07)}
-#zone .big{font:italic 400 24px var(--serif);margin-bottom:16px}
+#zone .big{font:italic 400 22px var(--serif);margin-bottom:14px}
 
-#land form{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end;max-width:620px}
+#land form{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end;max-width:860px}
 #land label{display:block;color:var(--d);font-size:13px}
-#land input{border-bottom:1px solid var(--l);padding:.35em 0;width:min(270px,78vw);font-size:17px}
+#land input{border-bottom:1px solid var(--l);padding:.35em 0;width:min(250px,78vw);font-size:17px}
 #land input:focus{border-color:#fff}
 #land .go{border:1px solid #fff;padding:.5em 1.4em;opacity:1}
 #land .go:hover{background:#fff;color:#000}
-#land .fine{font-size:13px;margin-top:26px}
+#land .fine{font-size:13px;margin-top:18px}
 #err{margin-top:16px;min-height:1.5em}
 .box.wide{width:min(660px,100%)}
 #pv{display:block;width:100%;height:260px;border:1px solid var(--l);margin:4px 0 12px;background:#000}
@@ -104,7 +104,9 @@ a.pill{display:inline-block;color:#fff;text-decoration:none;margin:0 8px 8px 0}
 #bpm{color:var(--acc);font-variant-numeric:tabular-nums}
 html.tr,html.tr body{background:transparent}body.obs::after,body.obs #start{display:none}
 .acts{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}.acts+.acts{margin-top:16px}.acts span{color:var(--d);margin-right:4px}
-#land form+form{margin-top:18px}#rec{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+#land form+form{margin-top:14px}
+canvas{transition:opacity .5s}body:not(.embed):has(#land:not(.hide)) canvas{opacity:.26}
+@media(max-height:780px){#land{padding-top:60px;padding-bottom:24px}#land .lead{font-size:13px}}#rec{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 #land>:first-child{margin-top:auto}#land>:last-child{margin-bottom:auto}
 body:has(#land:not(.hide)) .brand{visibility:hidden}
 .brand{cursor:pointer}.ic{position:relative}#bar{touch-action:none}
