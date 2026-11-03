@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#000000">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Nexium Visualizer – ta musique en bandes blanches">
-<meta property="og:description" content="Dix visualiseurs noir et blanc. Glisse des MP3 ou lis un dépôt GitHub.">
+<meta property="og:description" content="Dix-neuf visualiseurs noir et blanc, douze sources de musique. Glisse des MP3 ou lis un dépôt GitHub.">
 <meta name="twitter:card" content="summary_large_image">
 <!-- Pour l'aperçu des liens sur les réseaux : exporte « PNG 1200×630 » depuis Partager, mets-le dans ton dépôt et ajoute :
 <meta property="og:image" content="https://TON-SITE/og.png"> <meta name="twitter:image" content="https://TON-SITE/og.png"> -->
@@ -88,6 +88,19 @@ sup{font-size:9px;margin-left:2px;opacity:.6}
 .sec{color:var(--d);margin:20px 0 8px}
 #soc{margin-top:16px}
 a.pill{display:inline-block;color:#fff;text-decoration:none;margin:0 8px 8px 0}
+.pill svg,.box h2 svg{vertical-align:-2px;margin-right:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));gap:10px;margin-top:6px}
+.tile{border:1px solid var(--l);padding:16px;text-align:left;opacity:1;display:block}
+.tile:hover{background:#fff;color:#000}.tile svg{display:block;margin-bottom:14px}
+.tile b{display:block;font-weight:400;font-size:15px}.tile small{display:block;color:var(--d);margin-top:2px;line-height:1.3}.tile:hover small{color:#444}
+.res{display:flex;gap:12px;align-items:center;width:100%;text-align:left;padding:8px 0;opacity:.85;border-bottom:1px solid rgba(255,255,255,.1)}
+.res:hover{opacity:1}.res img,.res i{width:44px;height:44px;object-fit:cover;flex:none;background:#111;border:1px solid var(--l)}
+.res span{min-width:0;flex:1}.res b,.res small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:400}.res small{color:var(--d)}
+.box .tile,.box .res{margin-right:0;box-shadow:none}.box .res{border-bottom:1px solid rgba(255,255,255,.1)}
+#srcRes{margin-top:14px;max-height:42vh;overflow:auto}#srcFields .txt{margin-bottom:8px}
+#msp{display:none}
+#mgrid{display:flex;gap:6px 18px;flex:1 1 280px;min-width:0;overflow-x:auto;white-space:nowrap;scrollbar-width:none;padding-right:28px;-webkit-mask-image:linear-gradient(90deg,#000 90%,transparent);mask-image:linear-gradient(90deg,#000 90%,transparent)}
+#mgrid::-webkit-scrollbar{display:none}
 .acts{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}.acts+.acts{margin-top:16px}.acts span{color:var(--d);margin-right:4px}
 #land form+form{margin-top:18px}#rec{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 #land>:first-child{margin-top:auto}#land>:last-child{margin-bottom:auto}
@@ -132,7 +145,7 @@ body.embed.ui-min .mb,body.embed.ui-none #bot{display:none}
   <div id="zone">
     <div class="big">Glisse tes fichiers audio ici</div>
     <div class="acts"><button class="pill primary" id="pick">Choisir des fichiers</button><button class="pill" id="pickDir">Un dossier</button><button class="pill" id="demo">Écouter la démo</button></div>
-    <div class="acts"><span>En direct</span><button class="pill" id="bSpo">Spotify</button><button class="pill" id="bMic">Microphone</button><button class="pill" id="bTab">Audio d’un onglet</button></div>
+    <div class="acts"><span>En direct</span><button class="pill" id="bSpo">Spotify</button><button class="pill" id="bMic">Microphone</button><button class="pill" id="bTab">Audio d’un onglet</button><button class="pill primary" id="bSrc">Toutes les sources</button></div>
   </div>
   <form id="f">
     <div><label for="repo">Dépôt GitHub (nom ou lien)</label><input id="repo" placeholder="pseudo/mes-sons" autocomplete="off" autocapitalize="off" spellcheck="false" required></div>
@@ -169,7 +182,7 @@ body.embed.ui-min .mb,body.embed.ui-none #bot{display:none}
     <button class="ic noembed" id="bCap" data-i="cam" title="Enregistrer une image (C)" aria-label="Capture"></button>
     <button class="ic" id="bFs" data-i="fs" title="Plein écran (F)" aria-label="Plein écran"></button>
   </div>
-  <div class="row" id="r2"><span class="lab mb">Visuel</span><span class="sp" id="msp"></span>
+  <div class="row" id="r2"><span class="lab mb">Visuel</span><div id="mgrid" class="mb"></div><span class="sp" id="msp"></span>
     <button class="pill noembed hide" id="bSync" title="Partage l’audio de l’onglet Spotify pour animer les visuels">Synchroniser le son</button>
     <button class="pill primary noembed" id="bShare" title="Copier le lien de ce morceau">Partager</button>
     <button class="pill noembed" id="bEmbed" title="Intégrer sur un autre site">Intégrer</button>
@@ -206,7 +219,7 @@ body.embed.ui-min .mb,body.embed.ui-none #bot{display:none}
   <div class="opt"><span>Reculer ou avancer de 5 s</span><kbd>← →</kbd></div>
   <div class="opt"><span>Morceau précédent ou suivant</span><kbd>P N</kbd></div>
   <div class="opt"><span>Volume, couper le son</span><kbd>↑ ↓ M</kbd></div>
-  <div class="opt"><span>Changer de visuel</span><kbd>1 à 0</kbd></div>
+  <div class="opt"><span>Changer de visuel</span><kbd>1 à 0  [ ]</kbd></div>
   <div class="opt"><span>Alternance automatique des visuels</span><kbd>A</kbd></div>
   <div class="opt"><span>Sensibilité des visuels</span><kbd>+ −</kbd></div>
   <div class="opt"><span>Couleurs de la pochette</span><kbd>K</kbd></div>
@@ -222,7 +235,7 @@ body.embed.ui-min .mb,body.embed.ui-none #bot{display:none}
   <div class="opt"><label for="mh">Titre et pochette dans la vidéo</label><input type="checkbox" id="mh" checked></div>
   <div class="opt"><label for="mt">Couleurs de la pochette</label><input type="checkbox" id="mt" checked></div>
   <p class="sec">Le clip enregistre le visuel avec le son du morceau, prêt à poster. Choisis le format avant de lancer.</p>
-  <button id="mRec">● Enregistrer le clip</button><button id="mImg">Image plein format</button><button class="x">Fermer</button>
+  <button id="mRec">Enregistrer le clip</button><button id="mImg">Image plein format</button><button class="x">Fermer</button>
 </div></div>
 
 <div class="modal" id="spo" role="dialog" aria-modal="true" aria-label="Connecter Spotify"><div class="box">
@@ -236,8 +249,19 @@ body.embed.ui-min .mb,body.embed.ui-none #bot{display:none}
   <button id="spGo">Se connecter</button><button id="spCopy">Copier l’adresse</button><button class="x">Fermer</button>
 </div></div>
 
+<div class="modal" id="src" role="dialog" aria-modal="true" aria-label="Sources"><div class="box wide">
+  <h2 id="srcT">Sources</h2>
+  <div id="srcGrid" class="grid"></div>
+  <div id="srcView" class="hide">
+    <p class="sec" id="srcSub" style="margin-top:0"></p>
+    <form id="srcF"><div id="srcFields"></div><div class="acts" style="margin-top:12px"><button class="pill primary" id="srcGo" type="submit">Chercher</button><button class="pill" id="srcBack" type="button">Toutes les sources</button></div></form>
+    <div id="srcRes"></div>
+  </div>
+  <p class="sec"><button class="x">Fermer</button></p>
+</div></div>
+
 <div id="emsg" class="hide" role="alert"></div>
-<button id="recStop" class="pill">■ Arrêter l’enregistrement</button>
+<button id="recStop" class="pill">Arrêter l’enregistrement</button>
 <div id="drop">Dépose tes fichiers audio</div>
 <div id="toast" role="status"></div>
 
@@ -247,7 +271,7 @@ body.embed.ui-min .mb,body.embed.ui-none #bot{display:none}
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const ls={get(k,d){try{const v=localStorage.getItem("bandes."+k);return v===null?d:JSON.parse(v)}catch{return d}},set(k,v){try{localStorage.setItem("bandes."+k,JSON.stringify(v))}catch{}}};
 const q=new URLSearchParams(location.search),embed=q.has("embed");
-const MODES=[["bars","Bandes"],["ring","Anneau"],["strata","Strates"],["wave","Oscillo"],["flow","Défilé"],["code","Code"],["ripple","Ondes"],["tunnel","Tunnel"],["vector","Vecteur"],["spiral","Spirale"]];
+const MODES=[["bars","Bandes"],["ring","Anneau"],["strata","Strates"],["wave","Oscillo"],["flow","Défilé"],["code","Code"],["ripple","Ondes"],["tunnel","Tunnel"],["vector","Vecteur"],["spiral","Spirale"],["sun","Horizon"],["rain","Pluie"],["orbit","Orbites"],["matrix","Matrice"],["aurora","Aurore"],["prism","Prisme"],["seismo","Sismo"],["warp","Warp"],["skyline","Skyline"]];
 const ok=m=>MODES.some(x=>x[0]===m);
 const S={repo:q.get("repo")||"",path:q.get("path")||"",branch:q.get("branch")||"",
   mode:ok(q.get("mode"))?q.get("mode"):(embed||!ok(ls.get("mode")))?"bars":ls.get("mode"),
@@ -256,20 +280,31 @@ const S={repo:q.get("repo")||"",path:q.get("path")||"",branch:q.get("branch")||"
 if(embed)document.body.classList.add("embed","ui-"+(["min","full","none"].includes(q.get("ui"))?q.get("ui"):"min"));
 let clr=true;S.gain=ls.get("gain",1);S.tint=ls.get("tint",true);S.fmt="auto";S.hud=false;let ACC="#fff";const CUR=[255,255,255],TGT=[255,255,255];
 
-/* icônes */
-const SV=p=>`<svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
-const IC={prev:'<path d="M4 3v10M13 3L6 8l7 5z"/>',next:'<path d="M12 3v10M3 3l7 5-7 5z"/>',
-  shuf:'<path d="M2 4h3l6 8h3M2 12h3l2-2.7M9 6.7L11 4h3M12.5 2.5L14 4l-1.5 1.5M12.5 10.5L14 12l-1.5 1.5"/>',
-  rep:'<path d="M3 7V6a2 2 0 012-2h8M11 2l2 2-2 2M13 9v1a2 2 0 01-2 2H3M5 14l-2-2 2-2"/>',
-  cam:'<path d="M2 5h3l1-2h4l1 2h3v8H2z"/><circle cx="8" cy="9" r="2.2"/>',
-  fs:'<path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/>',
-  vol:'<path d="M2 6h3l4-3v10l-4-3H2z"/><path d="M11.5 5.5a3.5 3.5 0 010 5"/>',
-  mute:'<path d="M2 6h3l4-3v10l-4-3H2z"/><path d="M11 6l4 4M15 6l-4 4"/>'};
+/* icônes dessinées en bandes */
+const SV=(p,z=18,vb=16)=>`<svg width="${z}" height="${z}" viewBox="0 0 ${vb} ${vb}" fill="currentColor" aria-hidden="true">${p}</svg>`;
+const bd=(...a)=>a.map(v=>`<rect x="${v[0]}" y="${v[1]}" width="${v[2]}" height="${v[3]}"/>`).join("");
+const IC={
+  play:bd([4,2,2,12],[7,4,2,8],[10,6,2,4]),pause:bd([4,2,3,12],[9,2,3,12]),stop:bd([3,3,10,10]),
+  prev:bd([12,3,2,10],[9,5,2,6],[6,7,2,2],[2,3,2,10]),next:bd([2,3,2,10],[5,5,2,6],[8,7,2,2],[12,3,2,10]),
+  shuf:bd([2,3,4,2],[7,3,7,2],[2,7,7,2],[10,7,4,2],[2,11,3,2],[6,11,8,2]),rep:bd([2,3,10,2],[12,3,2,6],[2,11,12,2],[2,7,2,4]),
+  cam:'<circle cx="8" cy="8" r="5.2" fill="none" stroke="currentColor" stroke-width="2"/>'+bd([7,7,2,2]),
+  fs:bd([2,2,4,2],[2,2,2,4],[10,2,4,2],[12,2,2,4],[2,12,4,2],[2,10,2,4],[10,12,4,2],[12,10,2,4]),
+  vol:bd([2,9,2,4],[6,6,2,7],[10,3,2,10]),mute:bd([2,11,2,2],[6,11,2,2],[10,11,2,2]),
+  share:bd([2,7,5,2],[7,3,2,10],[9,3,5,2],[9,11,5,2]),embed:bd([2,3,2,10],[2,3,4,2],[2,11,4,2],[12,3,2,10],[10,3,4,2],[10,11,4,2]),
+  make:bd([7,2,2,12],[2,7,12,2]),hub:bd([2,2,5,5],[9,2,5,5],[2,9,5,5],[9,9,5,5]),
+  files:bd([2,3,12,2.5],[2,7,9,2.5],[2,11,5,2.5]),folder:bd([2,5,12,2],[2,5,2,9],[12,5,2,9],[2,12,12,2],[2,2,6,2]),
+  repo:bd([4,2,3,12],[7,6,6,3],[11,9,3,5]),link:bd([2,4,8,3],[6,9,8,3]),
+  lastfm:bd([3,10,3,4],[7,6,3,8],[11,2,3,12]),listenbrainz:bd([3,2,3,12],[7,6,3,8],[11,10,3,4]),
+  audius:'<path d="M2 13a6 6 0 0112 0" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M5 13a3 3 0 016 0" fill="none" stroke="currentColor" stroke-width="2"/>',
+  itunes:'<circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/>'+bd([7,2,2,6]),
+  archive:bd([2,2,12,2.5],[3,6,2.5,8],[6.75,6,2.5,8],[10.5,6,2.5,8]),
+  radio:bd([7,7,2,7])+'<path d="M3 6a7 7 0 0110 0M5.5 8.5a3.5 3.5 0 015 0" fill="none" stroke="currentColor" stroke-width="1.8"/>',
+  mic:'<rect x="6" y="2" width="4" height="8" rx="2"/>'+bd([7,11,2,2],[4,13,8,1.5]),
+  tab:bd([2,3,12,2],[2,3,2,10],[12,3,2,10],[2,11,12,2],[5,7,6,2]),demo:bd([2,8,2,5],[5,4,2,9],[8,6,2,7],[11,2,2,11]),
+  spotify:'<circle cx="12" cy="12" r="10.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6.8 9.6c3.6-1 7.6-.7 10.8 1.1M7.4 12.9c3-.8 6.3-.5 8.9 1M8 15.9c2.4-.6 4.9-.4 7 .8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'
+};
+const ico=(k,z=18)=>k==="spotify"?SV(IC.spotify,z,24):SV(IC[k],z);
 $$("[data-i]").forEach(b=>b.innerHTML=SV(IC[b.dataset.i]));
-const PL='<svg width="16" height="16" viewBox="0 0 14 14"><path d="M3 1l10 6-10 6z" fill="currentColor"/></svg>',
-      PA='<svg width="16" height="16" viewBox="0 0 14 14"><path d="M3 1h3v12H3zM8 1h3v12H8z" fill="currentColor"/></svg>';
-$("#start").innerHTML=PL.replace(/16/g,"30");
-const ST='<svg width="16" height="16" viewBox="0 0 14 14"><rect x="3" y="3" width="8" height="8" fill="currentColor"/></svg>';
 
 /* ---------- audio ---------- */
 const au=new Audio();au.crossOrigin="anonymous";au.preload="auto";
@@ -430,14 +465,16 @@ async function listen(kind,keep){
   }catch(e){toast(e.name==="NotAllowedError"?"Accès refusé":"Entrée audio indisponible")}
 }
 function stopListen(){if(!mic)return;try{mic.src.disconnect()}catch{}mic.st.getTracks().forEach(t=>t.stop());mic=null;if(out)out.gain.value=1;sync()}
-function stopLive(){stopListen();if(spk){spk=null;clearTimeout(spT)}}
+function stopLive(){stopListen();if(spk){clearTimeout(spk.t);spk=null}}
 
-/* ---------- Spotify (titre, pochette, couleurs ; PKCE sans serveur) ---------- */
-let spk=null,spT;
+/* ---------- connexions : lecture en cours (Spotify, Last.fm, ListenBrainz) ---------- */
+let spk=null;
 const redir=()=>location.origin+location.pathname;
 const b64=b=>btoa(String.fromCharCode(...new Uint8Array(b))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+const fatal=m=>{const e=new Error(m);e.fatal=1;return e};
 async function spLogin(){
   const id=$("#spId").value.trim();if(!id)return toast("Colle ton Client ID Spotify");
+  if(!window.crypto||!crypto.subtle||!/^https?:$/.test(location.protocol))return toast("Spotify demande le site en ligne (https), pas un fichier ouvert en local");
   ls.set("spId",id);const v=b64(crypto.getRandomValues(new Uint8Array(48)));sessionStorage.setItem("spv",v);
   const ch=b64(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(v)));
   location.href="https://accounts.spotify.com/authorize?"+new URLSearchParams({client_id:id,response_type:"code",redirect_uri:redir(),code_challenge_method:"S256",code_challenge:ch,scope:"user-read-currently-playing user-read-playback-state"});
@@ -447,24 +484,125 @@ async function spToken(body){
   if(!r.ok)throw new Error("Connexion Spotify refusée. Vérifie le Client ID et l’adresse de redirection.");
   const j=await r.json(),old=ls.get("spTok",null);ls.set("spTok",{a:j.access_token,r:j.refresh_token||(old&&old.r),e:Date.now()+j.expires_in*1000-60000});
 }
-function spStart(){
-  if(!ls.get("spTok",null))return;
-  stopLive();au.pause();S.tracks=[{name:"En attente de Spotify…",artist:"Lance un morceau dans Spotify",live:1,spotify:1}];S.i=0;S.nrepo=0;S.started=true;
-  spk={playing:false,tid:""};loadCover(null);ready();spPoll();
+async function spNow(){
+  let tk=ls.get("spTok",null);if(!tk)throw fatal("Session Spotify absente. Reconnecte-toi.");
+  if(Date.now()>tk.e){try{await spToken({grant_type:"refresh_token",refresh_token:tk.r})}catch(x){ls.set("spTok",null);throw fatal("Session Spotify expirée. Reconnecte-toi.")}tk=ls.get("spTok",null)}
+  const r=await fetch("https://api.spotify.com/v1/me/player?additional_types=episode,track",{headers:{Authorization:"Bearer "+tk.a}});
+  if(r.status===204)return null;
+  if(r.status===401){ls.set("spTok",null);throw fatal("Session Spotify expirée. Reconnecte-toi.")}
+  if(r.status===429){const e=new Error("limite");e.wait=(+r.headers.get("Retry-After")||5)*1000;throw e}
+  if(!r.ok)throw new Error("Spotify "+r.status);
+  const j=await r.json(),it=j.item;
+  if(!it)return{id:"hors-titre",name:j.currently_playing_type==="ad"?"Publicité":"Lecture en cours",artist:"Spotify",playing:!!j.is_playing};
+  const al=it.album||it.show||{},im=al.images||[];
+  return{id:it.id,name:it.name,artist:it.artists?it.artists.map(a=>a.name).join(", "):(it.show&&it.show.publisher)||"",album:al.name,img:im[0]&&im[0].url,playing:!!j.is_playing,progress:j.progress_ms,duration:it.duration_ms};
 }
-async function spPoll(){
-  if(!spk)return;
+async function lfNow(){
+  const l=ls.get("lf",{}),r=await fetch("https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&format=json&limit=1&user="+encodeURIComponent(l.u||"")+"&api_key="+encodeURIComponent(l.k||""));
+  const j=await r.json();if(j.error)throw fatal(j.message||"Erreur Last.fm");
+  const t=[].concat(j.recenttracks&&j.recenttracks.track||[])[0];if(!t)return null;
+  const on=!!(t["@attr"]&&t["@attr"].nowplaying==="true"),im=(t.image||[]).slice(-1)[0],u=im&&im["#text"];
+  return{id:t.name+t.artist["#text"],name:t.name,artist:t.artist["#text"],album:t.album&&t.album["#text"],img:u&&!/2a96cbd8b46e442fc41c2b86b821562f/.test(u)?u:undefined,playing:on,msg:on?"":"dernier titre écouté"};
+}
+async function lbNow(){
+  const r=await fetch("https://api.listenbrainz.org/1/user/"+encodeURIComponent(ls.get("lb",""))+"/playing-now");
+  if(r.status===404)throw fatal("Utilisateur ListenBrainz introuvable");if(!r.ok)throw new Error("ListenBrainz "+r.status);
+  const j=await r.json(),l=j.payload&&j.payload.listens&&j.payload.listens[0];if(!l)return null;
+  const m=l.track_metadata,mid=(m.mbid_mapping&&m.mbid_mapping.release_mbid)||(m.additional_info&&m.additional_info.release_mbid);
+  return{id:m.track_name+m.artist_name,name:m.track_name,artist:m.artist_name,album:m.release_name,img:mid?"https://coverartarchive.org/release/"+mid+"/front-500":undefined,playing:true};
+}
+function npStart(kind,fn,empty){
+  stopLive();au.pause();S.tracks=[{name:"Connexion…",artist:empty,live:1,np:1}];S.i=0;S.nrepo=0;S.started=true;
+  spk={kind,fn,empty,playing:false,tid:"",msg:"",prog:0,dur:0,ts:0};loadCover(null);ready();npLoop();ls.set("npAuto",kind);
+}
+function spStart(){if(ls.get("spTok",null))npStart("spotify",spNow,"Rien en lecture dans Spotify")}
+async function npLoop(){
+  const k=spk;if(!k)return;let wait=4000;
   try{
-    let tk=ls.get("spTok",null);if(Date.now()>tk.e){await spToken({grant_type:"refresh_token",refresh_token:tk.r});tk=ls.get("spTok",null)}
-    const r=await fetch("https://api.spotify.com/v1/me/player/currently-playing",{headers:{Authorization:"Bearer "+tk.a}});
-    if(r.status===204)spk.playing=false;
-    else if(r.status===401){ls.set("spTok",null);stopLive();return toast("Session Spotify expirée. Reconnecte-toi.")}
-    else if(r.ok){const j=await r.json(),it=j.item;
-      if(it){spk.playing=j.is_playing;
-        if(spk.tid!==it.id){spk.tid=it.id;S.tracks=[{name:it.name,artist:it.artists.map(a=>a.name).join(", "),album:it.album.name,img:it.album.images[0]&&it.album.images[0].url,live:1,spotify:1}];S.i=0;loadCover(S.tracks[0]);ready()}}}
-  }catch(e){}
-  if(spk)spT=setTimeout(spPoll,3000);
+    const r=await k.fn();if(spk!==k)return;
+    if(!r){k.playing=false;k.msg=k.empty;k.dur=0}
+    else{k.playing=r.playing;k.msg=r.msg||"";
+      if(k.tid!==r.id){k.tid=r.id;S.tracks=[{name:r.name,artist:r.artist,album:r.album,img:r.img,live:1,np:1}];S.i=0;loadCover(S.tracks[0]);ready()}
+      k.prog=r.progress||0;k.dur=r.duration||0;k.ts=performance.now()}
+    wait=k.playing?2500:5000;sync();
+  }catch(e){if(spk!==k)return;if(e.fatal){stopLive();toast(e.message);return}wait=e.wait||8000}
+  k.t=setTimeout(npLoop,wait);
 }
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&spk){clearTimeout(spk.t);npLoop()}});
+
+/* ---------- connexions : recherche (Audius, iTunes, Internet Archive, Radios) ---------- */
+const PROV={
+  audius:{n:"Audius",s:"Musique libre et morceaux complets.",ph:"Un morceau, un artiste…",trend:1,
+    async q(t){const j=await(await fetch("https://api.audius.co/v1/tracks/"+(t?"search?query="+encodeURIComponent(t)+"&":"trending?")+"limit=20&app_name=NEXIUM")).json();
+      return(j.data||[]).map(x=>({name:x.title,artist:x.user&&x.user.name,img:x.artwork&&(x.artwork["480x480"]||x.artwork["150x150"]),src:"https://api.audius.co/v1/tracks/"+x.id+"/stream?app_name=NEXIUM"}))}},
+  itunes:{n:"Extraits iTunes",s:"Extraits de 30 secondes, pochettes en haute définition.",ph:"Un titre, un artiste…",
+    async q(t){if(!t)return[];const j=await(await fetch("https://itunes.apple.com/search?media=music&entity=song&limit=24&term="+encodeURIComponent(t))).json();
+      return j.results.filter(x=>x.previewUrl).map(x=>({name:x.trackName,artist:x.artistName,album:x.collectionName,img:(x.artworkUrl100||"").replace("100x100","600x600"),src:x.previewUrl}))}},
+  archive:{n:"Internet Archive",s:"Concerts, albums et enregistrements libres.",ph:"Un artiste, un concert…",
+    async q(t){if(!t)return[];const j=await(await fetch("https://archive.org/advancedsearch.php?q="+encodeURIComponent(t+" AND mediatype:audio")+"&fl[]=identifier&fl[]=title&fl[]=creator&rows=20&output=json")).json();
+      return j.response.docs.map(d=>({item:d.identifier,name:d.title,artist:[].concat(d.creator||"").join(", "),img:"https://archive.org/services/img/"+d.identifier}))},
+    async open(x){const m=await(await fetch("https://archive.org/metadata/"+x.item)).json();
+      return(m.files||[]).filter(f=>/mp3/i.test(f.format)).slice(0,60).map(f=>({name:(f.title||f.name).replace(/\.mp3$/i,""),artist:x.artist||x.name,img:x.img,src:"https://archive.org/download/"+x.item+"/"+encodeURIComponent(f.name)}))}},
+  radio:{n:"Radios",s:"Des milliers de stations du monde entier.",ph:"Nom, pays ou genre…",trend:1,
+    async q(t){const j=await(await fetch("https://de1.api.radio-browser.info/json/stations/search?hidebroken=true&limit=24&order=clickcount&reverse=true&name="+encodeURIComponent(t))).json();
+      return j.filter(x=>x.url_resolved).map(x=>({name:x.name.trim(),artist:[x.country,(x.tags||"").split(",")[0]].filter(Boolean).join(" · "),img:x.favicon||undefined,src:x.url_resolved,stream:1}))}},
+  lastfm:{n:"Last.fm",s:"Affiche ce que tu écoutes, quelle que soit l’appli. Clé d’API gratuite sur last.fm/api.",np:1,f:[["lfu","Nom d’utilisateur"],["lfk","Clé d’API"]],
+    pre:()=>{const l=ls.get("lf",{});return{lfu:l.u,lfk:l.k}},
+    go(v){if(!v.lfu||!v.lfk)return toast("Renseigne le nom d’utilisateur et la clé d’API");ls.set("lf",{u:v.lfu,k:v.lfk});$("#src").classList.remove("open");npStart("lastfm",lfNow,"Rien en lecture sur Last.fm")}},
+  listenbrainz:{n:"ListenBrainz",s:"Ton titre en cours, sans clé d’API.",np:1,f:[["lbu","Nom d’utilisateur"]],pre:()=>({lbu:ls.get("lb","")}),
+    go(v){if(!v.lbu)return toast("Renseigne ton nom d’utilisateur");ls.set("lb",v.lbu);$("#src").classList.remove("open");npStart("listenbrainz",lbNow,"Rien en lecture sur ListenBrainz")}}
+};
+let sp=null;
+const jump=sel=>{home();setTimeout(()=>$(sel).focus(),60)};
+const TILES=[
+  ["files","Fichiers","MP3, WAV, FLAC, M4A",()=>$("#ffile").click()],["folder","Dossier","Tout un dossier d’un coup",()=>$("#fdir").click()],
+  ["repo","GitHub","Dépôt public, sous-dossiers compris",()=>jump("#repo")],["link","Lien audio","URL directe d’un fichier",()=>jump("#url")],
+  ["spotify","Spotify","Titre, pochette et couleurs en direct",()=>$("#bSpo").click()],
+  ["lastfm","Last.fm","Ce que tu écoutes, partout",()=>openView(PROV.lastfm),1],["listenbrainz","ListenBrainz","Titre en cours, sans clé",()=>openView(PROV.listenbrainz),1],
+  ["audius","Audius","Musique libre, titres complets",()=>openView(PROV.audius),1],["itunes","Extraits iTunes","30 secondes en HD",()=>openView(PROV.itunes),1],
+  ["archive","Internet Archive","Concerts et albums libres",()=>openView(PROV.archive),1],["radio","Radios","Stations du monde entier",()=>openView(PROV.radio),1],
+  ["mic","Microphone","Le son autour de toi",()=>$("#bMic").click()],["tab","Audio d’un onglet","YouTube, SoundCloud, Apple Music…",()=>$("#bTab").click()],
+  ["demo","Démo","Un morceau généré",()=>demo()]
+];
+function showGrid(){
+  $("#srcT").textContent="Sources";$("#srcView").classList.add("hide");const el=$("#srcGrid");el.classList.remove("hide");el.innerHTML="";
+  TILES.forEach(t=>{
+    if((t[0]==="mic"&&$("#bMic").classList.contains("hide"))||(t[0]==="tab"&&$("#bTab").classList.contains("hide")))return;
+    const b=document.createElement("button");b.className="tile";b.innerHTML=ico(t[0],26)+"<b>"+t[1]+"</b><small>"+t[2]+"</small>";
+    b.onclick=()=>{if(!t[4])$("#src").classList.remove("open");t[3]()};el.appendChild(b)});
+}
+function openSrc(){showGrid();$("#src").classList.add("open")}
+function openView(p){
+  sp=p;$("#srcGrid").classList.add("hide");$("#srcView").classList.remove("hide");$("#srcT").textContent=p.n;$("#srcSub").textContent=p.s;
+  const pre=p.pre?p.pre():{};
+  $("#srcFields").innerHTML=(p.f||[["q",p.ph]]).map(([id,ph])=>`<input class="txt" data-f="${id}" placeholder="${esc(ph)}" value="${esc(pre[id]||"")}" autocomplete="off" spellcheck="false">`).join("");
+  $("#srcGo").textContent=p.np?"Connecter":"Chercher";$("#srcRes").innerHTML="";
+  if(p.trend)run("");const i=$("#srcFields input");if(i)i.focus();
+}
+async function run(q){
+  const el=$("#srcRes");el.textContent="Recherche…";
+  try{
+    const r=await sp.q(q);el.innerHTML="";if(!r.length){el.textContent="Aucun résultat.";return}
+    r.forEach(x=>{const b=document.createElement("button");b.className="res";
+      b.innerHTML=(x.img?`<img src="${esc(x.img)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`:"<i></i>")+`<span><b>${esc(x.name||"Sans titre")}</b><small>${esc(x.artist||"")}</small></span>`;
+      b.onclick=()=>pick(x);el.appendChild(b)});
+  }catch(e){el.textContent="Cette source ne répond pas pour le moment. Réessaie dans un instant."}
+}
+async function pick(x){
+  try{
+    const tr=x.item?await sp.open(x):[x];if(!tr.length)return toast("Aucun fichier audio dans cet élément");
+    drop();const first=S.tracks.length;S.tracks.push(...tr.map(t=>({...t,remote:1})));ready();play(first);$("#src").classList.remove("open");
+  }catch(e){toast("Chargement impossible")}
+}
+$("#srcF").onsubmit=e=>{e.preventDefault();const v={};$$("#srcFields input").forEach(i=>v[i.dataset.f]=i.value.trim());if(sp.np)sp.go(v);else run(v.q||"")};
+$("#srcBack").onclick=showGrid;
+addEventListener("paste",e=>{
+  if(embed||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
+  const t=((e.clipboardData&&e.clipboardData.getData("text"))||"").trim();if(!t)return;
+  if(/github\.com\//i.test(t)){$("#repo").value=t;$("#f").requestSubmit()}
+  else if(/^https?:\/\/\S+\.(mp3|wav|ogg|flac|m4a|aac|opus)(\?\S*)?$/i.test(t))addUrl(t);
+  else if(/spotify\.com|youtu|soundcloud|deezer|music\.apple/i.test(t))toast("Pour ce service, ouvre-le dans un autre onglet puis utilise « Audio d’un onglet ».");
+});
 
 /* ---------- pochette et couleurs ---------- */
 const cimg=new Image();cimg.crossOrigin="anonymous";
@@ -481,7 +619,7 @@ function loadCover(t){
   const el=$("#cov");TGT[0]=TGT[1]=TGT[2]=255;
   if(!t||!t.img){el.classList.remove("on");return}
   cimg.onload=()=>{el.src=t.img;el.classList.add("on");if(S.tint){const p=palette(cimg);if(p)p.forEach((v,i)=>TGT[i]=v)}};
-  cimg.onerror=()=>{el.src=t.img;el.classList.add("on")};
+  cimg.onerror=()=>{el.onload=()=>el.classList.add("on");el.onerror=()=>el.classList.remove("on");el.src=t.img};
   cimg.src=t.img;
 }
 let wl=null;
@@ -530,15 +668,15 @@ function ready(){
 function sync(){
   const t=S.tracks[S.i];if(!t)return;
   $("#ttl").textContent=t.name;
-  $("#sub").textContent=(t.artist||(t.local?"Fichier local":t.remote?"Lien audio":S.repo))+(t.album?" · "+t.album:"")+(t.spotify&&!mic&&spk&&spk.playing?"  ·  visuels en ambiance":"")+(S.tracks.length>1?"   "+(S.i+1)+" sur "+S.tracks.length:"");
-  $("#bPlay").innerHTML=liveTrack()?ST:au.paused?PL:PA;$("#bSync").classList.toggle("hide",embed||!(t.spotify&&!mic));
+  $("#sub").textContent=(t.artist||(t.local?"Fichier local":t.remote?"Lien audio":S.repo))+(t.album?" · "+t.album:"")+(t.np&&spk?(spk.msg?"  ·  "+spk.msg:!spk.playing?"  ·  en pause":!mic?"  ·  visuels en ambiance":""):"")+(S.tracks.length>1?"   "+(S.i+1)+" sur "+S.tracks.length:"");
+  $("#bPlay").innerHTML=ico(liveTrack()?"stop":au.paused?"play":"pause",16);$("#bSync").classList.toggle("hide",embed||!(t.np&&!mic));const nb=t.np?!!(spk&&spk.dur):!(t.live||t.stream);$("#bar").classList.toggle("hide",!nb);$("#time").classList.toggle("hide",!nb);
   $$("[data-m]").forEach(b=>b.classList.toggle("on",b.dataset.m===S.mode));
   $("#bAuto").classList.toggle("on",S.cycle);
   $("#bShuf").classList.toggle("on",S.shuf);$("#bRep").classList.toggle("on",S.rep>0);
   $("#bRep").title="Répétition : "+["désactivée","toute la liste","ce morceau"][S.rep];
   $("#bRep").innerHTML=SV(IC.rep)+(S.rep===2?'<sup style="position:absolute;margin:-12px -4px 0 0">1</sup>':"");
   [...$("#lst").children].forEach((b,i)=>b.classList.toggle("cur",i===S.i));
-  document.title=(au.paused?"":"▶ ")+t.name+" – Nexium Visualizer";
+  document.title=(au.paused?"":"• ")+t.name+" – Nexium Visualizer";
   if(S.nrepo&&!embed)history.replaceState(null,"",url({rel:1}));
   if("mediaSession" in navigator)navigator.mediaSession.metadata=new MediaMetadata({title:t.name,artist:t.artist||"Nexium Visualizer"});
 }
@@ -556,7 +694,7 @@ async function copy(t){try{await navigator.clipboard.writeText(t);return true}ca
   const ok=document.execCommand("copy");a.remove();return ok}}
 function toast(m){const e=$("#toast");e.textContent=m;e.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("show"),2600)}
 const noShare=()=>!S.nrepo&&(toast("Les fichiers locaux ne se partagent pas par lien. Charge un dépôt GitHub pour partager."),true);
-function setMode(k){S.mode=k;clr=true;ls.set("mode",k);sync()}
+function setMode(k){S.mode=k;clr=true;ls.set("mode",k);sync();const o=$("#mgrid .on");if(o&&o.scrollIntoView)o.scrollIntoView({inline:"center",block:"nearest"})}
 const fs=()=>{const e=document.documentElement;if(document.fullscreenElement)document.exitFullscreen();else if(e.requestFullscreen)e.requestFullscreen();else toast("Plein écran indisponible sur cet appareil")};
 function capture(){
   const t=S.tracks[S.i];if(!t)return;
@@ -568,10 +706,10 @@ function capture(){
 }
 
 const msp=$("#msp");
-MODES.forEach(([k,n],i)=>{const b=document.createElement("button");b.className="mb";b.dataset.m=k;b.title="Touche "+(i+1)%10;
-  b.innerHTML=n+"<sup>"+(i+1)%10+"</sup>";b.onclick=()=>setMode(k);msp.before(b)});
+MODES.forEach(([k,n],i)=>{const b=document.createElement("button");b.className="mb";b.dataset.m=k;b.title=i<10?"Touche "+(i+1)%10:"Touches [ et ]";
+  b.innerHTML=n+(i<10?"<sup>"+(i+1)%10+"</sup>":"");b.onclick=()=>setMode(k);$("#mgrid").appendChild(b)});
 const ab=document.createElement("button");ab.id="bAuto";ab.className="mb";ab.textContent="Auto";
-ab.title="Change de visuel toutes les 16 secondes (A)";ab.onclick=()=>{S.cycle=!S.cycle;sync()};msp.before(ab);
+ab.title="Change de visuel toutes les 16 secondes (A)";ab.onclick=()=>{S.cycle=!S.cycle;sync()};$("#mgrid").appendChild(ab);
 setInterval(()=>{if(S.cycle&&!au.paused){const i=MODES.findIndex(m=>m[0]===S.mode);setMode(MODES[(i+1)%MODES.length][0])}},16000);
 
 $("#f").onsubmit=e=>{e.preventDefault();
@@ -589,7 +727,7 @@ $("#mf").onchange=e=>{S.fmt=e.target.value;size()};
 $("#mt").onchange=e=>{S.tint=e.target.checked;ls.set("tint",S.tint);loadCover(cur())};
 $("#mRec").onclick=record;$("#mImg").onclick=()=>{$("#create").classList.remove("open");capture()};
 $("#recStop").onclick=()=>rec&&rec.stop();
-$("#pick").onclick=$("#bAdd").onclick=()=>$("#ffile").click();
+$("#pick").onclick=()=>$("#ffile").click();$("#bAdd").onclick=openSrc;$("#bSrc").onclick=openSrc;
 $("#pickDir").onclick=()=>$("#fdir").click();
 $("#ffile").onchange=$("#fdir").onchange=e=>{addFiles(e.target.files);e.target.value=""};
 $("#bPlay").onclick=toggle;$("#start").onclick=()=>play(S.i);
@@ -600,7 +738,7 @@ $("#bRep").onclick=()=>{S.rep=(S.rep+1)%3;ls.set("rep",S.rep);sync();toast($("#b
 $("#bCap").onclick=capture;$("#bFs").onclick=fs;
 $("#bList").onclick=()=>$("#list").classList.toggle("open");
 $("#bHelp").onclick=()=>$("#help").classList.add("open");
-$("#clr").onclick=()=>{stopLive();au.pause();au.removeAttribute("src");S.tracks.forEach(t=>{if(t.local){URL.revokeObjectURL(t.src);t.img&&URL.revokeObjectURL(t.img)}});S.tracks=[];S.nrepo=0;S.repo="";S.started=false;
+$("#clr").onclick=()=>{ls.set("npAuto",null);stopLive();au.pause();au.removeAttribute("src");S.tracks.forEach(t=>{if(t.local){URL.revokeObjectURL(t.src);t.img&&URL.revokeObjectURL(t.img)}});S.tracks=[];S.nrepo=0;S.repo="";S.started=false;
   $("#list").classList.remove("open");$("#start").classList.add("hide");loadCover(null);history.replaceState(null,"",location.pathname);document.title=TITLE;home()};
 const esc=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const cur=()=>S.tracks[S.i];
@@ -620,6 +758,9 @@ function svgSnap(){
   case"wave":{let u="",v="";for(let i=0;i<N;i++){const x=m+i*bw,y=b[i]*190;u+=(i?"L":"M")+f(x)+" "+f(cy-y);v+=(i?"L":"M")+f(x)+" "+f(cy+y)}s=`<path d="${u}" fill="none" stroke-width="2.2"/><path d="${v}" fill="none" stroke-width="1" opacity=".5"/>`;break}
   case"flow":for(let i=0;i<N;i++)s+=R(m,70+i*6.2,4+b[N-1-i]*(w-2*m-4),4);break;
   case"strata":for(let j=Math.min(hist.length,32)-1;j>=0;j--){let d="";for(let i=0;i<N;i++)d+=(i?"L":"M")+f(m+i/(N-1)*(w-2*m))+" "+f(500-j*12-hist[j][i]*130*Math.sin(Math.PI*i/(N-1)));s+=`<path d="${d}L${w-m} 700L${m} 700Z" fill="#000" stroke-width="1.3" stroke-opacity="${f(1-j/45)}"/>`}break;
+  case"matrix":for(let c=0;c<28;c++){const v=b[Math.floor(c/28*N*.85)]*16;for(let r=0;r<16;r++)s+=R(m+c*(1080/28)+3,70+(15-r)*25+3,1080/28-6,19,r<v?"":".07")}break;
+  case"orbit":for(let k=0;k<12;k++){const r=44+k*24,a=k*.7,l=.5+b[k*5]*5;s+=`<path d="M${f(cx+Math.cos(a)*r)} ${f(cy+Math.sin(a)*r)}A${r} ${r} 0 ${l>3.1416?1:0} 1 ${f(cx+Math.cos(a+l)*r)} ${f(cy+Math.sin(a+l)*r)}" fill="none" stroke-width="5"/>`}break;
+  case"prism":for(let k=0;k<10;k++){const r=(24+k*30)*(1+b[k*6]*.35),a=k*.22;let d="";for(let i=0;i<=6;i++){const q=a+i/6*6.2832;d+=(i?"L":"M")+f(cx+Math.cos(q)*r)+" "+f(cy+Math.sin(q)*r)}s+=`<path d="${d}Z" fill="none" stroke-width="${f(1+b[k*6]*6)}" opacity="${f(.35+k*.065)}"/>`}break;
   case"code":for(let i=0;i<N;i++){const k=Math.min(bw*.96,Math.max(1,bw*(.08+b[i]*1.3)));s+=R(m+i*bw+(bw-k)/2,70,k,400)}break;
   default:for(let i=0;i<N;i++){const k=Math.max(2,b[i]*190),x=m+i*bw+bw*.16;s+=R(x,cy-k,bw*.68,k)+R(x,cy+3,bw*.68,k*.72,.36)}
   }
@@ -666,7 +807,7 @@ $("#cLink").onclick=async e=>toast(await copy(e.target.dataset.u)?"Lien copié":
 new MutationObserver(()=>{if(!$("#modal").classList.contains("open")){$("#pv").src="about:blank";$("#pv").dataset.s=""}}).observe($("#modal"),{attributes:true,attributeFilter:["class"]});
 $$(".modal").forEach(m=>m.onclick=e=>{if(e.target===m||e.target.classList.contains("x"))m.classList.remove("open")});
 
-const seek=e=>{if(au.duration){const r=$("#bar .t").getBoundingClientRect();au.currentTime=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width))*au.duration}};
+const seek=e=>{if(!liveTrack()&&au.duration&&isFinite(au.duration)){const r=$("#bar .t").getBoundingClientRect();au.currentTime=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width))*au.duration}};
 let sk=false;$("#bar").onpointerdown=e=>{sk=true;seek(e)};addEventListener("pointermove",e=>sk&&seek(e));addEventListener("pointerup",()=>sk=false);
 addEventListener("keydown",e=>{
   if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)||e.metaKey||e.ctrlKey||e.altKey)return;
@@ -679,6 +820,7 @@ addEventListener("keydown",e=>{
   else if(k==="n")play(nextI(1));else if(k==="p")play(S.i-1);
   else if(/^\d$/.test(k)&&MODES[(n+9)%10])setMode(MODES[(n+9)%10][0]);
   else if(k==="a"){S.cycle=!S.cycle;sync()}
+  else if(k==="["||k==="]"){const i=MODES.findIndex(m=>m[0]===S.mode);setMode(MODES[(i+(k==="]"?1:MODES.length-1))%MODES.length][0])}
   else if(k==="k"){S.tint=!S.tint;ls.set("tint",S.tint);$("#mt").checked=S.tint;loadCover(cur());toast("Couleurs de la pochette : "+(S.tint?"activées":"désactivées"))}
   else if(k==="+"||k==="="||k==="-"){S.gain=Math.min(2.5,Math.max(.4,S.gain*(k==="-"?.87:1.15)));ls.set("gain",S.gain);toast("Sensibilité : "+Math.round(S.gain*100)+" %")}
   else if(k==="m")mute();else if(k==="f")fs();else if(k==="c"&&!embed)capture();
@@ -727,6 +869,7 @@ function spectrum(t){
   else for(let i=0;i<N;i++){const v=.035+.03*Math.sin(t/700+i*.33)+.02*Math.sin(t/1300-i*.13);B[i]+=(v-B[i])*.08}
   let s=0;for(let i=0;i<6;i++)s+=B[i];bass=s/6;
 }
+const drops=[],stars=[],sis=[],sky=[];
 const V={
 bars(){
   const m=Math.max(20,W*.05),bw=(W-2*m)/N,mh=H*.4,cy=H*.44,w=bw*.68;
@@ -825,9 +968,67 @@ spiral(t){
   const m=Math.min(W,H),cx=W/2,cy=H*.44;g.strokeStyle=ACC;g.lineWidth=1.6;g.beginPath();
   for(let i=0;i<216;i++){const a=i*.21+t/7000,r=m*.04+i*m*.0014*(1+bass*.4),l=2+B[i%N]*m*.1,c=Math.cos(a),n=Math.sin(a);g.moveTo(cx+c*r,cy+n*r);g.lineTo(cx+c*(r+l),cy+n*(r+l))}
   g.stroke();
+},
+sun(t){
+  const m=Math.min(W,H),cx=W/2,cy=H*.46,r=m*.2*(1+bass*.18),gy=cy+r+m*.02;g.fillStyle=ACC;
+  for(let i=0;i<16;i++){const y=cy-r+i*r/8,h=r/8*(i<8?.9:Math.max(.15,.9-(i-8)*.1)),dy=y+h/2-cy,w=Math.sqrt(Math.max(0,r*r-dy*dy))*(1+B[i*4]*.12);if(w>0)g.fillRect(cx-w,y,2*w,h)}
+  g.fillRect(W*.06,gy,W*.88,2);g.strokeStyle=ACC;g.lineWidth=1;g.globalAlpha=.7;g.beginPath();
+  const sp=(t/1600*(1+bass*3))%1;
+  for(let k=0;k<9;k++){const p=(k+sp)/9,y=gy+p*p*(H*.84-gy);g.moveTo(0,y);g.lineTo(W,y)}
+  for(let k=-7;k<=7;k++){g.moveTo(cx+k*W*.012,gy);g.lineTo(cx+k*W*.14,H*.84)}
+  g.stroke();g.globalAlpha=1;
+},
+rain(){
+  const m=Math.max(20,W*.05),bw=(W-2*m)/N;
+  for(let i=0;i<N;i++)if(Math.random()<B[i]*.22&&drops.length<900)drops.push({x:m+i*bw+bw*.3,y:-20,v:4+B[i]*16,l:10+B[i]*90,w:bw*.4});
+  g.fillStyle=ACC;
+  for(let j=drops.length-1;j>=0;j--){const d=drops[j];d.y+=d.v;g.fillRect(d.x,d.y-d.l,d.w,d.l);if(d.y-d.l>H)drops.splice(j,1)}
+},
+orbit(t){
+  const m=Math.min(W,H),cx=W/2,cy=H*.44;g.strokeStyle=ACC;
+  for(let k=0;k<12;k++){const r=m*(.07+k*.027),a=t/1800*(k%2?1:-1)*(1+k*.15),l=.5+B[k*5]*5;
+    g.globalAlpha=.25;g.lineWidth=1;g.beginPath();g.arc(cx,cy,r,0,7);g.stroke();
+    g.globalAlpha=1;g.lineWidth=m*.013;g.beginPath();g.arc(cx,cy,r,a,a+l);g.stroke()}
+},
+matrix(){
+  const C=28,Rw=16,m=Math.max(20,W*.07),cw=(W-2*m)/C,ch=H*.64/Rw,y0=H*.12;g.fillStyle=ACC;
+  for(let c=0;c<C;c++){const v=B[Math.floor(c/C*N*.85)]*Rw;for(let r=0;r<Rw;r++){g.globalAlpha=r<v?1:.07;g.fillRect(m+c*cw+cw*.12,y0+(Rw-1-r)*ch+ch*.12,cw*.76,ch*.76)}}
+  g.globalAlpha=1;
+},
+aurora(t){
+  g.strokeStyle=ACC;
+  for(let l=0;l<9;l++){const a=B[l*7]*H*.16+H*.02,by=H*.2+l*H*.062;g.globalAlpha=.25+l/9*.5;g.lineWidth=1+B[l*7]*7;g.beginPath();
+    for(let x=0;x<=W;x+=10){const y=by+Math.sin(x*.006+t/(900+l*130)+l)*a+Math.sin(x*.013-t/700)*a*.4;x?g.lineTo(x,y):g.moveTo(x,y)}g.stroke()}
+  g.globalAlpha=1;
+},
+prism(t){
+  const m=Math.min(W,H),cx=W/2,cy=H*.44;g.strokeStyle=ACC;g.lineJoin="miter";
+  for(let k=0;k<10;k++){const r=m*(.05+k*.034)*(1+B[k*6]*.35),a=t/3000*(k%2?1:-1)+k*.22;g.lineWidth=1+B[k*6]*6;g.globalAlpha=.35+k*.065;g.beginPath();
+    for(let i=0;i<=6;i++){const q=a+i/6*6.2832,x=cx+Math.cos(q)*r,y=cy+Math.sin(q)*r;i?g.lineTo(x,y):g.moveTo(x,y)}g.stroke()}
+  g.globalAlpha=1;
+},
+seismo(){
+  const m=Math.max(24,W*.06),n=Math.floor((W-2*m)/4),cy=H*.44;
+  if(fr%2===0){let s=0;for(let i=0;i<N;i++)s+=B[i];sis.push(s/N);while(sis.length>n)sis.shift()}
+  g.fillStyle=ACC;
+  sis.forEach((v,i)=>{const h=2+v*H*.7;g.globalAlpha=.35+.65*i/sis.length;g.fillRect(m+i*4,cy-h/2,2.4,h)});g.globalAlpha=1;
+},
+warp(){
+  const cx=W/2,cy=H*.44,m=Math.hypot(W,H)/2;
+  while(stars.length<140)stars.push({a:Math.random()*6.2832,r:Math.random()*m*.2,v:Math.random()*.6+.4});
+  g.strokeStyle=ACC;g.lineWidth=1.4;g.beginPath();
+  for(const s of stars){const pr=s.r;s.r+=(2+s.r*.03)*s.v*(1+bass*9);if(s.r>m){s.r=Math.random()*20;s.a=Math.random()*6.2832}
+    const c=Math.cos(s.a),n=Math.sin(s.a);g.moveTo(cx+c*pr,cy+n*pr);g.lineTo(cx+c*s.r,cy+n*s.r)}
+  g.stroke();
+},
+skyline(){
+  if(!sky.length)for(let i=0;i<32;i++)sky.push({w:.6+Math.random()*1.1,k:Math.floor(Math.random()*N*.8)});
+  const tot=sky.reduce((a,b)=>a+b.w,0),m=Math.max(16,W*.04),u=(W-2*m)/tot,by=H*.72;let x=m;
+  for(const b of sky){const w=b.w*u,h=H*.08+B[b.k]*H*.5;g.fillStyle=ACC;g.fillRect(x+1,by-h,w-2,h);g.fillStyle="#000";
+    for(let wy=by-14;wy>by-h+4;wy-=10)for(let wx=x+5;wx<x+w-8;wx+=9)if(((wx*7+wy*13)|0)%5<B[b.k]*5+.6)g.fillRect(wx,wy,4,5);x+=w}
 }};
 let tz=0;
-const FADE={bars:.34,ring:.3,wave:.45,code:.5,ripple:.22,tunnel:.35,vector:.22,spiral:.3};
+const FADE={bars:.34,ring:.3,wave:.45,code:.5,ripple:.22,tunnel:.35,vector:.22,spiral:.3,sun:.4,rain:.22,orbit:.3,matrix:.5,aurora:.28,prism:.3,seismo:.5,warp:.22,skyline:1};
 const lg=[...$$(".brand i")],E={time:$("#time"),bar:$("#bar")};let sec=-1,lastR=-1;
 const fmt=x=>Math.floor(x/60)+":"+String(Math.floor(x%60)).padStart(2,"0");
 function frame(t){
@@ -839,10 +1040,10 @@ function frame(t){
   if(fr%6===0){const r=document.documentElement.style;r.setProperty("--acc",ACC);r.setProperty("--soft",`rgba(${CUR[0]|0},${CUR[1]|0},${CUR[2]|0},.22)`)}
   V[S.mode](t);if(rec&&S.hud)hud();
   if(!embed||!document.body.classList.contains("ui-none"))lg.forEach((e,i)=>e.style.transform=`scaleY(${.25+Math.min(1,B[[1,7,16,30][i]]*1.6)*.75})`);
-  const d=au.duration;
+  const sx=spk&&spk.dur&&liveTrack()?{c:Math.min(spk.dur,spk.prog+(spk.playing?performance.now()-spk.ts:0))/1000,d:spk.dur/1000}:{c:au.currentTime,d:au.duration},d=sx.d,cT=sx.c;
   if(d&&isFinite(d)){
-    const r=au.currentTime/d;if(Math.abs(r-lastR)>.0004){lastR=r;E.bar.style.setProperty("--r",r)}
-    const s=Math.floor(au.currentTime);if(s!==sec){sec=s;E.time.textContent=fmt(au.currentTime)+" / "+fmt(d)}
+    const r=cT/d;if(Math.abs(r-lastR)>.0004){lastR=r;E.bar.style.setProperty("--r",r)}
+    const s=Math.floor(cT);if(s!==sec){sec=s;E.time.textContent=fmt(cT)+" / "+fmt(d)}
   }
   requestAnimationFrame(frame);
 }
@@ -851,6 +1052,12 @@ requestAnimationFrame(frame);
 /* ---------- démarrage ---------- */
 if(S.repo){$("#repo").value=S.repo;$("#path").value=S.path;loadRepo()}
 recents();$("#mt").checked=S.tint;
+[["pick","files"],["pickDir","folder"],["demo","demo"],["bSpo","spotify"],["bMic","mic"],["bTab","tab"],["bSrc","hub"],["bShare","share"],["bEmbed","embed"],["bMake","make"],["bSync","tab"]].forEach(([id,k])=>$("#"+id).insertAdjacentHTML("afterbegin",ico(k,14)));
+$("#spo h2").insertAdjacentHTML("afterbegin",ico("spotify",24));$("#start").innerHTML=ico("play",34);
+{const a=ls.get("npAuto",null);if(a&&!embed&&!S.repo&&!q.get("code")){
+  if(a==="spotify")spStart();
+  else if(a==="lastfm"&&ls.get("lf",null))npStart("lastfm",lfNow,"Rien en lecture sur Last.fm");
+  else if(a==="listenbrainz"&&ls.get("lb",""))npStart("listenbrainz",lbNow,"Rien en lecture sur ListenBrainz")}}
 if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)$("#bMic").classList.add("hide");
 if(!navigator.mediaDevices||!navigator.mediaDevices.getDisplayMedia||/Mobi|Android/i.test(navigator.userAgent))$("#bTab").classList.add("hide");
 (async()=>{
